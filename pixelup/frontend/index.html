@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>PixelUp – AI Photo Enhancer</title>
+  <meta name="description" content="Upscale and enhance photos with free, open-source AI. No sign-up, no stored photos.">
+  <meta name="color-scheme" content="light dark">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%232f5bff'/%3E%3Cpath d='M16 8l6 8h-4v8h-4v-8h-4z' fill='white'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="app">
+    <header class="brand">
+      <h1><span class="logo" aria-hidden="true">▲</span>PixelUp</h1>
+      <p>Sharper, cleaner, more natural photos. Free, open-source AI.</p>
+    </header>
+
+    <!-- 1. Upload -->
+    <section id="view-upload" class="card">
+      <label id="drop" class="drop" for="file" tabindex="0">
+        <input id="file" type="file" accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp" hidden>
+        <svg viewBox="0 0 24 24" width="36" height="36" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" d="M12 16V4m0 0L7 9m5-5 5 5M4 15v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"/></svg>
+        <strong>Choose a photo</strong>
+        <span class="hint">or drag &amp; drop it here · JPG, PNG, WEBP · up to <span id="maxmb">25</span> MB</span>
+      </label>
+
+      <div id="picked" class="picked" hidden>
+        <img id="thumb" alt="Selected photo preview">
+        <div class="meta">
+          <span id="fname" class="fname"></span>
+          <span id="fdetail" class="muted"></span>
+          <button id="change" class="link" type="button">Choose a different photo</button>
+        </div>
+      </div>
+
+      <div id="options" class="options" hidden>
+        <div class="opt">
+          <span class="opt-label" id="l-scale">Upscale</span>
+          <div class="seg" role="radiogroup" aria-labelledby="l-scale">
+            <label><input type="radio" name="scale" value="2" checked><span>2×</span></label>
+            <label><input type="radio" name="scale" value="4"><span>4×</span></label>
+          </div>
+        </div>
+        <div class="opt">
+          <span class="opt-label" id="l-q">AI model</span>
+          <div class="seg" role="radiogroup" aria-labelledby="l-q">
+            <label><input type="radio" name="quality" value="fast" checked><span>Fast</span></label>
+            <label><input type="radio" name="quality" value="best"><span>Best quality</span></label>
+          </div>
+        </div>
+        <label class="check"><input id="grade" type="checkbox" checked><span>Natural colour &amp; contrast</span></label>
+        <label class="check"><input id="denoise" type="checkbox"><span>Reduce noise</span></label>
+      </div>
+
+      <p id="estimate" class="muted small" hidden></p>
+      <p id="error" class="error" role="alert" hidden></p>
+      <button id="go" class="primary" type="button" disabled>Enhance Photo</button>
+    </section>
+
+    <!-- 2. Working -->
+    <section id="view-working" class="card center" hidden aria-live="polite">
+      <div class="spinner" aria-hidden="true"></div>
+      <p id="wmsg" class="wmsg">Uploading…</p>
+      <div class="bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i id="barfill"></i></div>
+      <p class="muted small" id="wsub">Large photos can take a few minutes on a computer without a GPU. Keep this tab open.</p>
+      <button id="cancel" class="link" type="button">Cancel</button>
+    </section>
+
+    <!-- 3. Result -->
+    <section id="view-result" class="card" hidden>
+      <div id="compare" class="compare" aria-label="Before and after comparison">
+        <img id="img-after" alt="Enhanced photo" draggable="false">
+        <div id="before-wrap" class="before-wrap"><img id="img-before" alt="Original photo" draggable="false"></div>
+        <span class="tag tag-before">Before</span><span class="tag tag-after">After</span>
+        <div id="handle" class="handle" aria-hidden="true"><span></span></div>
+        <input id="slider" type="range" min="0" max="100" value="50" aria-label="Compare before and after">
+      </div>
+      <p id="rinfo" class="muted center-text"></p>
+      <p id="rnotice" class="notice" hidden></p>
+      <a id="download" class="primary" role="button" download>Download</a>
+      <div class="row">
+        <button id="fullsize" class="link" type="button">Open full size</button>
+        <button id="again" class="link" type="button">Enhance another photo</button>
+      </div>
+    </section>
+
+    <footer>
+      <p>Powered by <a href="https://github.com/xinntao/Real-ESRGAN" target="_blank" rel="noopener">Real-ESRGAN</a>. Your photos are processed in memory and never stored.</p>
+    </footer>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>
